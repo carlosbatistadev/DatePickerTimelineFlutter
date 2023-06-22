@@ -53,6 +53,8 @@ class DatePicker extends StatefulWidget {
   /// Callback function for when a different date is selected
   final DateChangeListener? onDateChange;
 
+  final bool? notifyTapOnInactiveDate;
+
   /// Max limit up to which the dates are shown.
   /// Days are counted from the startDate
   final int daysCount;
@@ -77,6 +79,7 @@ class DatePicker extends StatefulWidget {
     this.inactiveDates,
     this.daysCount = 500,
     this.onDateChange,
+    this.notifyTapOnInactiveDate = false,
     this.locale = "en_US",
   }) : assert(
             activeDates == null || inactiveDates == null,
@@ -196,7 +199,7 @@ class _DatePickerState extends State<DatePicker> {
                 isSelected ? widget.selectionColor : Colors.transparent,
             onDateSelected: (selectedDate) {
               // Don't notify listener if date is deactivated
-              if (isDeactivated) return;
+              if (isDeactivated && widget.notifyTapOnInactiveDate != true) return;
 
               // A date is selected
               if (widget.onDateChange != null) {
